@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
-export function Example(props) {
-    const { value, count } = props;
+import { useState, useCallback } from "react";
+import { TextField } from '@mui/material';
+export default function Example() {
+    const [value, setValue] = useState("");
 
-    useEffect(() => {
-        console.log("useEffect");
+    const handleChange = useCallback((e) => {
+        setValue(e.target.value);
     }, []);
-
+    
     return (
-        <div>
-            aaaaaaaaaaaaaa
-            {value}
-            {count}
-        </div>
-    )
+        <TextField
+        style={{ margin: '20px' }}
+        id="outlined-basic"
+        label="Outlined"
+        variant="outlined"
+        value={value}
+        onChange={handleChange}
+        />
+    );
 }

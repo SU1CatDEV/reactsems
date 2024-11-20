@@ -1,4 +1,4 @@
-import { EXAMPLE_ACTION } from "./actions"
+import { EXAMPLE_ACTION, CHANGE_NAME } from "./actions"
 
 const initialState = {
     showName: false,
@@ -11,6 +11,11 @@ export const profileReducer = (state = initialState, action) => {
     return {
     ...state,
     showName: !state.showName
+    }
+    case CHANGE_NAME:
+    return {
+    ...state,
+    name: action.payload
     }
     default:
     return state

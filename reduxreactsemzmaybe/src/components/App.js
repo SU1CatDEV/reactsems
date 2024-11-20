@@ -1,12 +1,11 @@
 import { Provider } from "react-redux";
-import Profile from "./Profile";
 import { store } from "../store";
-import ThemeExample from "./ThemeExample";
+import Router from "./Router";
 
 function App() {
   return (
     <Provider store={store}>
-      <ThemeExample/>
+      <Router/>
     </Provider>
   );
 }

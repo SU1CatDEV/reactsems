@@ -5,6 +5,34 @@ const initialState = [
         desc: "something something idk",
         price: 35,
         colors: ["Red", "White", "Blue"],
+        sizes: ["S", "M", "L"],
+        categories: ["Shirts"],
+        special: ["New Arrivals"],
+        topType: "Women", // Women, Men or Kids (aka the first parameter in the URL)
+        brand: "Moda Operandi",
+        designer: "Kym Ellery",
+        img: "ellery-mo.png"
+    },
+    {
+        id: 2,
+        name: "Ellery x M'O 2",
+        desc: "something something idk",
+        price: 35,
+        colors: ["Red", "White", "Blue"],
+        sizes: ["XS", "S", "M", "L"],
+        categories: ["Shirts"],
+        special: ["New Arrivals"],
+        topType: "Women", // Women, Men or Kids (aka the first parameter in the URL)
+        brand: "Moda Operandi",
+        designer: "Kym Ellery",
+        img: "ellery-mo.png"
+    },
+    {
+        id: 3,
+        name: "Ellery x M'O 3",
+        desc: "something something idk",
+        price: 35,
+        colors: ["Red", "White", "Blue"],
         sizes: ["XS", "S", "M", "L"],
         categories: ["Shirts"],
         special: ["New Arrivals"],

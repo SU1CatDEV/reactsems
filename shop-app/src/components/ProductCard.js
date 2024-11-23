@@ -27,21 +27,23 @@ function Product({ product, addAction }) {
         <div
             style={{
                 backgroundImage: `url(${require("../images/" + product.img)})`,
-                width: "360px",
-                height: "420px",
-                backgroundSize: "cover"
+                aspectRatio: "18/21",
+                backgroundSize: "contain",
             }}
             className="cardImage"
         >
-            <button 
-                onClick={(e) => {
-                    e.stopPropagation(); // Prevent event bubbling
-                    addAction(formCartProduct(product));
-                }} 
-                className="addToCart"
-            >
-                Add to cart
-            </button>
+            <div className="layer d-flex justify-content-center align-items-center">
+                <button 
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        addAction(formCartProduct(product));
+                    }} 
+                    className="addToCart"
+                >
+                    Add to cart
+                </button>
+            </div>
+            
         </div>
         <p>{product.name}</p>
         </div>

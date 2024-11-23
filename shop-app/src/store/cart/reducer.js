@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "./actions"
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, UPDATE_PRODUCT_QUANTITY } from "./actions"
 
 const initialState = {
     products: []
@@ -15,6 +15,16 @@ export const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 products: state.products.filter(product => product.id !== action.id)
+            }
+        case UPDATE_PRODUCT_QUANTITY:
+            return {
+                ...state,
+                products: state.products.map(product => product.id === action.id ? {...product, quantity: parseInt(action.quantity)} : product)
+            }
+        case CLEAR_CART:
+            return {
+                ...state,
+                products: []
             }
     default:
     return state

@@ -61,15 +61,20 @@ function ProductPage({products, addAction}) {
 
             <button onClick={() => addAction(formCartProduct(product))}>Add to cart</button>
 
-            { (similarProducts.length > 0) ? 
-                similarProducts.map((item, key) => (
-                    <div key={key}>
-                        <ProductCard product={item}/>
-                    </div>
-                ))
-                :
-                <h2>No similar products found.</h2>
-            }
+            <div className="container">
+                <div className="row">
+                    { (similarProducts.length > 0) ? 
+                        similarProducts.map((item, key) => (
+                            <div className="col-4" key={key}>
+                                <ProductCard product={item}/>
+                            </div>
+                        ))
+                        :
+                        <h2>No similar products found.</h2>
+                    }
+                </div>
+            </div>
+            
         </>
         
     );

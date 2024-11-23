@@ -1,12 +1,7 @@
 .accordion {
     width: 300px;
     margin: auto;
-    border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .accordion-item {
-    border-bottom: 1px solid #ddd;
   }
   
   .accordion-header {
@@ -20,19 +15,24 @@
     background-color: #eaeaea;
   }
   
-  .accordion-content {
+  .accordion-content, .filter-accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0,.65,1,.35), padding 0.3s cubic-bezier(0,.65,1,.35);
-    padding: 0 15px;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
   }
   
-  .accordion-content.active {
+  .accordion-content.active, .filter-accordion-content.active {
     max-height: 500px;
-    padding: 10px 15px;
   }
   
   .accordion-content p {
     margin: 0;
   }
   
+  .filter-accordion-content {
+    position:absolute;
+  }
+
+  .accordion-item {
+    border: none !important;
+  }

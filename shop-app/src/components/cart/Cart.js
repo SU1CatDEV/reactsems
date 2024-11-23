@@ -1,18 +1,20 @@
 import { useCallback } from "react";
 import CartCard from "../CartCard";
 import { connect } from "react-redux";
+import { createClearAction } from "../../store/cart/actions";
 
-function Cart({cart}) {
+function Cart({cart, clearAction}) {
 
     const calculateTotal = useCallback(() => {
         let total = 0;
 
         cart.forEach(product => {
-            total += product.price * parseInt(product.quantity) // в макете не нарисованно как нужно применять скидки.
+            total += product.price * parseInt(product.quantity)
         });
 
         return total
     }, [cart])
+    
 
     return ( 
         <div>
@@ -23,6 +25,7 @@ function Cart({cart}) {
                 </div>
             ))}
         {calculateTotal()}
+        <button onClick={clearAction}>Clear cart</button>
         </div>
     );
 }
@@ -31,4 +34,8 @@ const mapStateToProps = state => ({
     cart: state.cart.products,
 });
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = {
+    clearAction: createClearAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

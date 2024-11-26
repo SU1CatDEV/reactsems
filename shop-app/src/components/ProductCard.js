@@ -38,14 +38,18 @@ function Product({ product, addAction }) {
                         e.stopPropagation();
                         addAction(formCartProduct(product));
                     }} 
-                    className="addToCart"
+                    className="addToCart btn btn-reversed"
                 >
                     Add to cart
                 </button>
             </div>
             
         </div>
-        <p>{product.name}</p>
+        <div className="product-card-info text-start">
+            <b className="product-title">{product.name.toUpperCase()}</b>
+            <p>{product.desc}</p>
+            <span className="hot-pink">${product.price}</span>
+        </div>
         </div>
     );
 }

@@ -1,0 +1,18 @@
+.perk-block {
+    padding: 104px 0;
+    background-color: #242222;
+    color: white;
+}
+
+.perk-icon {
+    margin-bottom: 28px;
+}
+
+.perk-title {
+    margin-bottom: 16px;
+    font-weight: normal;
+}
+
+.perk-text {
+    color: #FBFBFB;
+}

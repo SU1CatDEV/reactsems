@@ -1,23 +1,17 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './index/Index';
 import Catalogue from './catalogue/Catalogue';
 import ProductPage from './product/ProductPage';
 import Cart from './cart/Cart';
+import './Global.css'
+import Nav from './Nav';
+import Footer from './Footer';
 
 export default function Router() {
   return (
   <BrowserRouter>
-  <ul>
-  <li>
-  <Link to="/">Index</Link>
-  </li>
-  <li>
-  <Link to="/catalogue">Catalogue</Link>
-  </li>
-  <li>
-  <Link to="/cart">Cart</Link>
-  </li>
-  </ul>
+  <Nav/>
+  
   <Routes>
     <Route path="/" element={<Index/>}>
     </Route>
@@ -30,6 +24,8 @@ export default function Router() {
     <Route path="*" element={<h3>Page not found</h3>}>
     </Route>
   </Routes>
+
+  <Footer></Footer>
   </BrowserRouter>
   );
   }

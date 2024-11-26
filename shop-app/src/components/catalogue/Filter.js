@@ -29,7 +29,7 @@ function FilterMenu({filterTypes, onFilterChange}) {
     return ( 
         <div className="filterBlock accordion">
                     <div className="accordion-item">
-                        <h2 className="filter-accordion-header" onClick={handleFilterToggle}>Filters</h2>
+                        <h4 className="filter-accordion-header" onClick={handleFilterToggle}>FILTERS</h4>
 
                         <div className={`accordion filter-accordion-content ${
                                             filtersOpen ? 'active' : ''

@@ -1,0 +1,38 @@
+.nav a {
+    text-decoration: none;
+}
+
+.menu-ul li {
+    list-style-type: none;
+    margin-bottom: 12px;
+    
+}
+
+.menu-ul li a {
+    color: #6F6E6E;
+    
+}
+
+.dropdown-content.menu-dropdown {
+    padding: 33px;
+    width: 232px;
+    font-size: 14px;
+}
+
+.margined-link {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.nav-wrap {
+    background-color: #222222;
+    padding: 18px 0;
+}
+
+.left img {
+    margin-right: 42px;
+}
+
+.right img {
+    margin-left: 42px;
+}

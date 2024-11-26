@@ -1,0 +1,51 @@
+.browse-button {
+    margin-top: 48px;
+}
+
+.products-display {
+    padding: 96px 0;
+}
+
+.products-display p {
+    margin-bottom: 48px;
+}
+
+.overlay {
+    background-color: #211616B2;
+    width: 100%;
+    height: 100%;
+    padding: 105px 0;
+}
+
+.overlay-wide {
+    background-color: #211616B2;
+    width: 100%;
+    height: 100%;
+    padding: 65px 0;
+}
+
+.accessories-link-block {
+    margin-top: 30px;
+}
+
+.product-link-block {
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+}
+
+.category2-span {
+    color: white;
+}
+
+.index-header {
+    background-color: #F1E4E6;
+    padding-top: 20px;
+    margin-bottom: 65px;
+}
+
+.left-pink-border {
+    padding-left: 16px;
+    border-left: 12px solid #F16D7F;
+}

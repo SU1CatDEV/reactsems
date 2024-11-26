@@ -4,17 +4,24 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import ProductCard from "../ProductCard";
 import Header from "../Header";
 import FilterMenu from "./Filter";
+import Features from "../Features";
 import './Dropdown.css'
+import './Catalogue.css'
 
 function Catalogue({products}) {
     const {toplvl, category2} = useParams();
+
+    console.log(!category2
+        ? products
+        : products.filter(product => (toplvl ? product.topType.toLowerCase() === toplvl.toLowerCase() : 1) && product.categories.some(category => category.toLowerCase() === category2.toLowerCase().replaceAll("_", " ").replaceAll(" n ", " & ")))
+    )
     const [filteredProducts, setFilteredProducts] = useState(
         !category2
         ? products
-        : products.filter(product => (toplvl ? product.topType.toLowerCase() === toplvl.toLowerCase : 1) && product.categories.some(category => category.toLowerCase() === category2.toLowerCase()))
+        : products.filter(product => (toplvl ? product.topType.toLowerCase() === toplvl.toLowerCase() : 1) && product.categories.some(category => category.toLowerCase() === category2.toLowerCase().replaceAll("_", " ").replaceAll(" n ", " & ")))
     );
     const [slicedProducts, setSlicedProducts] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState(category2 ? {"category": category2.toLowerCase()} : {});
+    const [selectedCategories, setSelectedCategories] = useState({});
     const [filters, setFilters] = useState([]) 
     const [priceFilters, setPriceFilters] = useState([])
 
@@ -64,11 +71,11 @@ function Catalogue({products}) {
         [20, 50],
         [50, 100],
         [100, -1]
-    ] // да, да, я знаю, лучше слайдером, но так по мне лучше работает с UI (а если по простому, это проще реализовать.)
+    ] // да, да, я знаю, лучше слайдером, но так по мне лучше работает с UI (а если по русски, это проще реализовать.)
 
     function filterByCategory(category, type){
         console.log(type)
-        setSelectedCategories({...selectedCategories, [type]: category.toLowerCase()});
+        setSelectedCategories({...selectedCategories, [type]: category.toLowerCase().replaceAll("_", " ").replaceAll(" n ", " & ")}); // "just use more variables" but sCaLaBiLiTyyyyyy
     }
 
     function handleCheckboxChange(e) {
@@ -88,55 +95,70 @@ function Catalogue({products}) {
     }
 
     const sliceFromPage = useCallback((pageNo) => {
-        console.log("redone!");
         return filteredProducts.slice((pageNo-1)*productsPerPage, (pageNo)*productsPerPage)
     }, [filteredProducts])
 
     useEffect(() => {
-        console.log("reset!")
         setSlicedProducts(sliceFromPage(page))
     }, [page, sliceFromPage])
 
     useEffect(() => {
-            setFilteredProducts(products
-                .filter(product => {
-                        if (filters.length > 0 || Object.keys(selectedCategories).length > 0) {
-                            return [...filters, ...Object.values(selectedCategories)]
-                            .every(filter => 
-                                [
-                                ...product.special
-                                .concat(product.sizes)
-                                .concat(product.categories),
-                                product.brand,
-                                product.designer
-                                ].map(parameter => parameter.toLowerCase())
-                                .includes(filter)
-                            )
-                        }
-                        else {
-                            return true
-                        }
+        const prelimCategories = {};
+        if (category2) {
+            prelimCategories["category"] = category2.toLowerCase().replaceAll("_", " ").replaceAll(" n ", " & ")
+        } 
+        if (["men", "women", "kids"].includes(toplvl.toLowerCase())) {
+            prelimCategories["toplvl"] = toplvl.toLowerCase().replaceAll("_", " ").replaceAll(" n ", " & ")
+        }
+        console.log(prelimCategories)
+        setSelectedCategories(prelimCategories)
+    }, [category2, toplvl])
+
+    useEffect(() => {
+        console.log(selectedCategories)
+    }, [selectedCategories])
+
+    useEffect(() => {
+        setFilteredProducts(products
+            .filter(product => {
+                    if (filters.length > 0 || Object.keys(selectedCategories).length > 0) {
+                        return [...filters, ...Object.values(selectedCategories)]
+                        .every(filter => 
+                            [
+                            ...product.special
+                            .concat(product.sizes)
+                            .concat(product.categories),
+                            product.brand,
+                            product.designer,
+                            product.topType
+                            ].map(parameter => parameter.toLowerCase())
+                            .includes(filter)
+                        )
                     }
-                )
-                .filter(product => {
-                    console.log(priceFilters)
-                    if (priceFilters.length > 0) {
-                        return priceFilters.some(filter => {
-                            const [min, max] = filter.split(":").map(Number);
-                            const price = product.price;
-                
-                            if (min === 0) {
-                                return price < max;
-                            }
-                            if (max === -1) {
-                                return price > min;
-                            }
-                            return price >= min && price <= max;
-                        });
+                    else {
+                        return true
                     }
-                    return true
-                })
-            );
+                }
+            )
+            .filter(product => {
+                console.log(priceFilters)
+                if (priceFilters.length > 0) {
+                    return priceFilters.some(filter => {
+                        const [min, max] = filter.split(":").map(Number);
+                        const price = product.price;
+            
+                        if (min === 0) {
+                            return price < max;
+                        }
+                        if (max === -1) {
+                            return price > min;
+                        }
+                        return price >= min && price <= max;
+                    });
+                }
+                return true
+            })
+        );
     }, [filters, products, selectedCategories, priceFilters])
 
     const paginationRange = useMemo(() => {
@@ -148,15 +170,20 @@ function Catalogue({products}) {
     }, [filteredProducts])
 
     useEffect(() => {
-        console.log(selectedCategories)
-    }, [selectedCategories])
+        setPage(1)
+    }, [selectedCategories, filters, priceFilters])
+
+    useEffect(() => {
+        console.log(filteredProducts.length);
+    })
     
     return (
         <div>
-            <Header title={category2?category2.toUpperCase():"Catalogue"}/>
+            <Header title={category2?category2.replaceAll("_", " ").replaceAll(" n ", " & ").toUpperCase():"Catalogue"} useBreadcrumbs={true}/>
+            
             <div className="menu container">
-                <div className="row">
-                    <div className="col-3">
+                <div className="row filter-row">
+                    <div className="col-3" style={{marginRight: "16px", zIndex: 3}}>
                         <FilterMenu filterTypes={[categories, brands, designers]} onFilterChange={(category, type) => filterByCategory(category, type)}/>
                     </div>
                     <div className="col-6 d-flex justify-content-around">
@@ -199,12 +226,10 @@ function Catalogue({products}) {
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
 
             <div className="container">
-                <div className="row">
+                <div className="row catalogue-products">
                     {filteredProducts.length === 0 ? 
                         <h2>Sorry, no products with those filters found.</h2> 
                         :
@@ -214,32 +239,51 @@ function Catalogue({products}) {
                             </div>
                     ))}
                 </div>
-                    
+                {filteredProducts.length > 0 ? (
+                    <div className="pagination d-flex justify-content-center">
+                    <div className="pagination-wrap">
+                        <button className="btn btn-page arrow" onClick={() => setPage(page-1)} disabled={page === 1}> &lt; </button>
+                        {paginationRange.length <= 7 ? (
+                            paginationRange.map((num, key) => (
+                                <button 
+                                    className="btn btn-page number" 
+                                    onClick={() => setPage(num)} 
+                                    key={key}
+                                    style={{
+                                        color: num === page ? "#F16D7F" : "inherit" 
+                                    }}
+                                >
+                                    {num}
+                                </button>
+                            ))
+                        ) : (
+                            <>
+                                {[1, 2, 3, 4, 5, 6].map((num, key) => (
+                                    <button 
+                                        className="btn btn-page number" 
+                                        onClick={() => setPage(num)} 
+                                        key={key}
+                                        style={{
+                                            color: num === page ? "#F16D7F" : "inherit" 
+                                        }}
+                                    >
+                                        {num}
+                                    </button>
+                                ))}
+                                <span class="number">...</span>
+                                <button className="btn btn-page number" onClick={() => setPage(paginationRange[paginationRange.length-1])}>{paginationRange[paginationRange.length-1]}</button>
+                            </>
+                        )}
+                        <button className="btn btn-page arrow" onClick={() => setPage(page+1)} disabled={page === paginationRange[paginationRange.length-1]}> &gt; </button>
+                    </div>
+                
+                </div>
+                ) : ""}
+                
+
             </div>
 
-            <div className="pagination" style={{
-                display: (filteredProducts.length > 0 ? "block" : "none")
-            }}>
-                <button onClick={() => setPage(page-1)} disabled={page === 1}> &lt; </button>
-                {paginationRange.length <= 7 ? (
-                    paginationRange.map((num, key) => (
-                        <button onClick={() => setPage(num)} key={key}>
-                            {num}
-                        </button>
-                    ))
-                ) : (
-                    <>
-                        {[1, 2, 3, 4, 5, 6].map((num, key) => (
-                            <button onClick={() => setPage(num)} key={key}>
-                                {num}
-                            </button>
-                        ))}
-                        <span>...</span>
-                        <button onClick={() => setPage(paginationRange[paginationRange.length-1])}>{paginationRange[paginationRange.length-1]}</button>
-                    </>
-                )}
-                <button onClick={() => setPage(page+1)} disabled={page === paginationRange[paginationRange.length-1]}> &gt; </button>
-            </div>
+            <Features/>
         </div>
     );
 }

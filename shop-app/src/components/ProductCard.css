@@ -19,3 +19,12 @@
     background-color: rgba(0,0,0,.5);
     opacity: 0;
 }
+
+.product-title {
+    margin-bottom: 12px;
+}
+
+.product-card-info {
+    padding: 20px;
+    background-color: #F8F8F8;
+}

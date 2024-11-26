@@ -6,7 +6,7 @@ const initialState = [
         price: 35,
         colors: ["Red", "White", "Blue"],
         sizes: ["S", "M", "L"],
-        categories: ["Shirts"],
+        categories: ["Jackets & Coats"],
         special: ["New Arrivals"],
         topType: "Women", // Women, Men or Kids (aka the first parameter in the URL)
         brand: "Moda Operandi",
@@ -35,7 +35,7 @@ const initialState = [
         colors: ["Red", "White", "Blue"],
         sizes: ["XS", "S", "M", "L"],
         categories: ["Shirts"],
-        special: ["New Arrivals"],
+        special: ["Hot Deals"],
         topType: "Women", // Women, Men or Kids (aka the first parameter in the URL)
         brand: "Moda Operandi",
         designer: "Kym Ellery",
